@@ -5,6 +5,7 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
     setIsAuthenticated(false);
     setIsOpen(false);
   };
@@ -13,16 +14,16 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
     { name: "Home", path: "/" },
     { name: "Contact", path: "/contact" },
     { name: "Login", path: "/login" },
-    { name: "Signup", path: "/signup" }
+    { name: "Signup", path: "/register" }
   ];
 
   const authLinks = [
     { name: "Home", path: "/" },
     { name: "Menu", path: "/menu" },
-    { name: "About", path: "/about" },
     { name: "My Order", path: "/myorder" },
-    { name: "Donate / Sponsor", path: "/donate" },
-    { name: "Testimonials", path: "/testimonials" }
+    { name: "Donate", path: "/donate" },
+    { name: "About", path: "/about" },
+    // { name: "Testimonials", path: "/testimonials" }
   ];
 
   return (

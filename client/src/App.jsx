@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -13,11 +13,16 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsAuthenticated(!!token);
+  }, []);
 
   return (
     <div className="pt-16">
-      <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+      <Navbar  isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated}/>
 
 
       <Routes>
@@ -26,8 +31,8 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         {!isAuthenticated && (
           <>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/login" element={<LoginPage setIsAuthenticated={setIsAuthenticated} />} />
+            <Route path="/register" element={<SignupPage />} />
           </>
         )}
 
