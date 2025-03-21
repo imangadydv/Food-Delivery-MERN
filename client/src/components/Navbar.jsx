@@ -1,15 +1,28 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const navLinks = [
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setIsOpen(false);
+  };
+
+  const guestLinks = [
+    { name: "Home", path: "/" },
+    { name: "Contact", path: "/contact" },
+    { name: "Login", path: "/login" },
+    { name: "Signup", path: "/signup" }
+  ];
+
+  const authLinks = [
     { name: "Home", path: "/" },
     { name: "Menu", path: "/menu" },
     { name: "About", path: "/about" },
+    { name: "My Order", path: "/myorder" },
     { name: "Donate / Sponsor", path: "/donate" },
-    { name: "Contact", path: "/contact" },
+    { name: "Testimonials", path: "/testimonials" }
   ];
 
   return (
@@ -20,7 +33,7 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex space-x-6">
-          {navLinks.map((link) => (
+          {(isAuthenticated ? authLinks : guestLinks).map((link) => (
             <Link
               key={link.name}
               to={link.path}
@@ -29,6 +42,14 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
+          {isAuthenticated && (
+            <button
+              onClick={handleLogout}
+              className="text-green-600 hover:text-red-700 font-medium transition-all duration-200"
+            >
+              Logout
+            </button>
+          )}
         </div>
 
         <div className="md:hidden">
@@ -43,7 +64,7 @@ const Navbar = () => {
 
       {isOpen && (
         <div className="md:hidden bg-white px-4 pb-4 space-y-3 shadow-md">
-          {navLinks.map((link) => (
+          {(isAuthenticated ? authLinks : guestLinks).map((link) => (
             <Link
               key={link.name}
               to={link.path}
@@ -53,6 +74,14 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
+          {isAuthenticated && (
+            <button
+              onClick={handleLogout}
+              className="block w-full text-left text-green-600 hover:text-red-700 font-medium transition"
+            >
+              Logout
+            </button>
+          )}
         </div>
       )}
     </nav>
